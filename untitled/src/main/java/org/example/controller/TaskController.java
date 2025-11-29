@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.DTO.TaskDTO;
 import org.example.classes.Task;
 import org.example.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,18 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTask(@PathVariable int id) {
+    public ResponseEntity<TaskDTO> getTask(@PathVariable int id) {
         Task t = taskService.getTask(id);
+        TaskDTO taskDto = taskService.convertTaskToDTO(t);
         System.out.println(t);
-        return ResponseEntity.status(200).body(t);
+        return ResponseEntity.status(200).body(taskDto);
     }
 
     @PostMapping("/addTask")
-    public ResponseEntity<String> addtask(@RequestBody Task task){
-        taskService.addTask(task);
+    public ResponseEntity<String> addtask(@RequestBody TaskDTO taskdto){
+        Task t = taskService.convertDtoToTask(taskdto);
+        taskService.addTask(t);
         return ResponseEntity.status(200).body("Task added successfully");
     }
 }
+`
