@@ -15,6 +15,14 @@ public class TasksDAO {
     private static final String deleteTask = "DELETE FROM tasks WHERE id = ?";
     private static final String readTask = "SELECT * FROM tasks WHERE id = ?";
 
+    static {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void addTask(Task task) {
         try (Connection conn = DriverManager.getConnection(DBURL, username, password); PreparedStatement pstmt = conn.prepareStatement(insertTask)) {
             pstmt.setInt(1, task.getTaskId());
@@ -29,7 +37,6 @@ public class TasksDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Couldn't create" + task.getName());
-
         }
     }
 
@@ -51,11 +58,13 @@ public class TasksDAO {
 
             pstmt.setInt(1, taskId);
             ResultSet rs = pstmt.executeQuery();
-
-            task.setTaskId(rs.getInt("id"));
-            task.setName(rs.getString("name"));
-            task.setPriority(rs.getString("priority"));
-            task.setStatus(rs.getString("status"));
+            System.out.println(rs);
+            if(rs.next()){
+                task.setTaskId(rs.getInt("id"));
+                task.setName(rs.getString("name"));
+                task.setPriority(rs.getString("priority"));
+                task.setStatus(rs.getString("status"));
+            }
 
             return task;
         } catch (SQLException e) {

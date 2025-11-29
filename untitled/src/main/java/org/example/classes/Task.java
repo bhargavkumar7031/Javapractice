@@ -1,5 +1,8 @@
 package org.example.classes;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Task {
     private int taskId;
     private String name;

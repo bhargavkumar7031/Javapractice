@@ -1,4 +1,8 @@
 package org.example.services;
 
-public class NotificationService {
+import org.springframework.stereotype.Component;
+
+@Component
+public interface NotificationService {
+    void sendMessage(String message);
 }

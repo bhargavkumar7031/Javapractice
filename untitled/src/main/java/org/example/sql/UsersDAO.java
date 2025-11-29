@@ -16,7 +16,7 @@ public class UsersDAO {
     private static final String deleteUser = "DELETE FROM users WHERE user_id = ?";
     private static final String readUser = "SELECT * FROM users WHERE user_id = ?";
 
-    private void addUser(User user) {
+    public void addUser(User user) {
         try (Connection conn = DriverManager.getConnection(DBURL, username, password); PreparedStatement pstmt = conn.prepareStatement(insertUser)) {
             pstmt.setInt(1, user.getId());
             pstmt.setString(2, user.getName());
@@ -30,7 +30,7 @@ public class UsersDAO {
         }
     }
 
-    private void deleteUser(int userId) {
+    public void deleteUser(int userId) {
         try (Connection conn = DriverManager.getConnection(DBURL, username, password); PreparedStatement pstmt = conn.prepareStatement(deleteUser)) {
             pstmt.setInt(1, userId);
 
@@ -42,7 +42,7 @@ public class UsersDAO {
         }
     }
 
-    private User readUser(int userId) {
+    public User readUser(int userId) {
         User user = new User();
         try (Connection conn = DriverManager.getConnection(DBURL, username, password); PreparedStatement pstmt = conn.prepareStatement(readUser)) {
 
